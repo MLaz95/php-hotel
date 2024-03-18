@@ -40,15 +40,42 @@
     ];
 
     function hotelFilter($obj){
-        if(isset($_GET['parking'])){
-            if($obj['parking'] == true){
-                return true;
-            }else{
-                return false;
-            }
-        }else{
+
+        // if neither filters have been applied then returns the full list
+        if(!isset($_GET['parking']) && $_GET['vote'] == ''){
             return true;
         }
+        // variables to track if hotel has parking and if it meets the required vote
+        $hasParking = '';
+        $meetsVote = '';
+        
+        // if parking filter is on it checks property and returns accordingly, otherwise sets variable to true.
+        if(isset($_GET['parking'])){
+            if($obj['parking'] == true){
+                $hasParking = true;
+            }else{
+                $hasParking = false;
+            }
+        }else{
+            $hasParking = true;
+        }
+        
+        // if vote filter hasn't been set then sets variable to true, otherwise it compares the input with obj property
+        if($_GET['vote'] == ''){
+            $meetsVote = true;
+        }elseif($obj['vote'] >= $_GET['vote']){
+                $meetsVote = true;
+        }else{
+            $meetsVote = false;
+        }
+        
+        // if both parameters are true, then returns true
+        if($hasParking && $meetsVote){
+            return true;
+        }else{
+            return false;
+        }
+
     };
 
 ?>

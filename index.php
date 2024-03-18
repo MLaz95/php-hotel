@@ -65,12 +65,16 @@
         <h1 class="text-center my-5">Hotels</h1>
         <h3>Filters</h3>
 
-        <form action="filter.php" class="mb-3 d-flex align-items-center gap-2 p-1">
-            <div class="form-check">
+        <form action="filter.php" class="mb-3 d-flex align-items-center gap-3">
+            <div class="">
                 <input type="checkbox" class="form-check-input" id="parking" name="parking" value="true">
-                <label class="form-check-label" for="exampleCheck1">Parking</label>
+                <label class="form-check-label" for="parking">Parking</label>
             </div>
-            <button type="submit" class="btn btn-sm btn-primary">Submit</button>
+            <div class="col-2 d-flex gap-1 align-items-center">
+                <input type="number" class="form-control" id="vote" name="vote">
+                <label for="vote" class="text-nowrap">Minimum Vote</label>
+            </div>
+            <button type="submit" class="btn btn-sm btn-primary col-1">Submit</button>
         </form>
 
         <table class="table table-bordered border-primary">
