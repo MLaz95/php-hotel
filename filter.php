@@ -1,3 +1,5 @@
+<!-- PAGE DEPRECATED FORM NOW RESOLVES IN INDEX -->
+
 <?php
     $hotels = [
 
@@ -46,8 +48,8 @@
             return true;
         }
         // variables to track if hotel has parking and if it meets the required vote
-        $hasParking = '';
-        $meetsVote = '';
+        $hasParking = true;
+        $meetsVote = true;
         
         // if parking filter is on it checks property and returns accordingly, otherwise sets variable to true.
         if(isset($_GET['parking'])){
@@ -56,15 +58,13 @@
             }else{
                 $hasParking = false;
             }
-        }else{
-            $hasParking = true;
         }
         
         // if vote filter hasn't been set then sets variable to true, otherwise it compares the input with obj property
         if($_GET['vote'] == ''){
             $meetsVote = true;
         }elseif($obj['vote'] >= $_GET['vote']){
-                $meetsVote = true;
+            $meetsVote = true;
         }else{
             $meetsVote = false;
         }

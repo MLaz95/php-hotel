@@ -1,5 +1,4 @@
 <?php
-
     $hotels = [
 
         [
@@ -40,13 +39,42 @@
 
     ];
 
-    function hasParking($obj){
-        if($obj['parking'] == true){
+    function hotelFilter($obj){
+
+        // if neither filters have been applied then returns the full list
+        if(!isset($_GET['parking']) && !isset($_GET['vote']) || !isset($_GET['parking']) && $_GET['vote'] == ''){
+            return true;
+        }
+        // variables to track if hotel has parking and if it meets the required vote
+        $hasParking = true;
+        $meetsVote = true;
+        
+        // if parking filter is on it checks property and returns accordingly, otherwise sets variable to true.
+        if(isset($_GET['parking'])){
+            if($obj['parking'] == true){
+                $hasParking = true;
+            }else{
+                $hasParking = false;
+            }
+        }
+        
+        // if vote filter hasn't been set then sets variable to true, otherwise it compares the input with obj property
+        if($_GET['vote'] == ''){
+            $meetsVote = true;
+        }elseif($obj['vote'] >= $_GET['vote']){
+            $meetsVote = true;
+        }else{
+            $meetsVote = false;
+        }
+        
+        // if both parameters are true, then returns true
+        if($hasParking && $meetsVote){
             return true;
         }else{
             return false;
         }
-    }
+
+    };
 
 ?>
 
@@ -65,7 +93,7 @@
         <h1 class="text-center my-5">Hotels</h1>
         <h3>Filters</h3>
 
-        <form action="filter.php" class="mb-3 d-flex align-items-center gap-3">
+        <form action="index.php" class="mb-3 d-flex align-items-center gap-3">
             <div class="">
                 <input type="checkbox" class="form-check-input" id="parking" name="parking" value="true">
                 <label class="form-check-label" for="parking">Parking</label>
@@ -90,7 +118,7 @@
             <tbody class="table-group-divider border-primary">
                 <?php
                 // makes a row for each hotel in the list
-                foreach($hotels as $currentHotel){
+                foreach(array_filter($hotels, 'hotelFilter') as $currentHotel){
                     echo "
                         <tr>
                             ";
@@ -113,9 +141,6 @@
                 ?>
             </tbody>
         </table>
-        <?php
-            var_dump(array_filter($hotels, 'hasParking'))
-        ?>
 
     </div>
     
