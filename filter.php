@@ -1,5 +1,4 @@
 <?php
-
     $hotels = [
 
         [
@@ -40,13 +39,17 @@
 
     ];
 
-    function hasParking($obj){
-        if($obj['parking'] == true){
-            return true;
+    function hotelFilter($obj){
+        if(isset($_GET['parking'])){
+            if($obj['parking'] == true){
+                return true;
+            }else{
+                return false;
+            }
         }else{
-            return false;
+            return true;
         }
-    }
+    };
 
 ?>
 
@@ -55,38 +58,30 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Hotels</title>
+    <title>Document</title>
     <!-- bootstrap -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
 </head>
 <body data-bs-theme="dark">
-
     <div class="container">
-        <h1 class="text-center my-5">Hotels</h1>
-        <h3>Filters</h3>
-
-        <form action="filter.php" class="mb-3 d-flex align-items-center gap-2 p-1">
-            <div class="form-check">
-                <input type="checkbox" class="form-check-input" id="parking" name="parking" value="true">
-                <label class="form-check-label" for="exampleCheck1">Parking</label>
-            </div>
-            <button type="submit" class="btn btn-sm btn-primary">Submit</button>
-        </form>
-
-        <table class="table table-bordered border-primary">
-            <thead>
-                <tr>
-                    <th scope="col">Hotel</th>
-                    <th scope="col">Description</th>
-                    <th scope="col">Parking</th>
-                    <th scope="col">Vote</th>
-                    <th scope="col">Distance to City Center</th>
-                </tr>
-            </thead>
-            <tbody class="table-group-divider border-primary">
-                <?php
+        <?php
+            
+                echo '
+                    <table class="table table-bordered border-primary">
+                        <thead>
+                            <tr>
+                                <th scope="col">Hotel</th>
+                                <th scope="col">Description</th>
+                                <th scope="col">Parking</th>
+                                <th scope="col">Vote</th>
+                                <th scope="col">Distance to City Center</th>
+                            </tr>
+                        </thead>
+                        <tbody class="table-group-divider border-primary">
+                
+                ';
                 // makes a row for each hotel in the list
-                foreach($hotels as $currentHotel){
+                foreach(array_filter($hotels, 'hotelFilter') as $currentHotel){
                     echo "
                         <tr>
                             ";
@@ -106,17 +101,20 @@
                         </tr>
                     ";
                 }
-                ?>
-            </tbody>
-        </table>
-        <?php
-            var_dump(array_filter($hotels, 'hasParking'))
+                echo'
+                </tbody>
+            </table>
+                ';
+                    
+            
         ?>
-
     </div>
-    
+
+
+
 
     <!-- bootstrap -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+
 </body>
 </html>
